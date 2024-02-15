@@ -1,0 +1,104 @@
+﻿@page
+@model Kolorowanie.Pages.FusionModel
+@{
+}
+
+<section class="section">
+    <div class="container">
+        <form method="post" id="myForm" enctype="multipart/form-data" asp-controller="YourController"
+            asp-action="UploadFile">
+            <div class="columns is-vcentered">
+                <div class="column is-4 has-text-centered">
+                    <span class="label is-size-5 has-text-white">Black and white input image</span>
+                    <div id="file-js-example" class="file is-centered has-name is-medium is-white">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="ImageFile">
+                            <span class="file-cta">
+                                <span class="file-label">
+                                    Choose image
+                                </span>
+                            </span>
+                            <span class="file-name">
+                                No image uploaded
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="column is-4 has-text-centered">
+                    <span class="label is-size-5 has-text-white has-text-center">Fusion model</span>
+                    <div class="select is-medium">
+                        <select class="block" asp-items="Model.ListModelsFusion" name="SelectedModel1"></select>
+                    </div>
+                </div>
+
+                <div class="column is-4 has-text-centered">
+                    <span class="label is-size-5 has-text-white has-text-center">Run model</span>
+
+                    <button class="button is-large js-modal-trigger" data-target="modal-js-example"
+                        type="submit">Colorize</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert">@Model.ErrorMessage</div>
+}
+
+
+
+@if (!string.IsNullOrEmpty(Model.ResultPath1))
+{
+    <section class="section">
+        <div class="container">
+            <div class="columns is-vcentered">
+                <div class="column is-6 has-text-centered">
+                    <div class="card has-background-dark">
+                        <p class="is-size-4 has-text-white has-text-centered has-text-weight-semibold">
+                            Black and white input
+                        </p>
+                        <div class="card-image mt-2">
+                            <img src="@Model.InputPath" alt="Input" />
+                        </div>
+                        <a href="@Model.InputPath" download="input" class="card-content button is-black is-medium my-2">
+                            Download
+                        </a>
+                    </div>
+                </div>
+
+                <div class="column is-6 has-text-centered">
+                    <div class="card has-background-dark">
+                        <p class="is-size-4 has-text-white has-text-centered has-text-weight-semibold">
+                            Result of fusion model
+                        </p>
+                        <div class="card-image mt-2">
+                            <img src="@Model.ResultPath1" alt="Result" />
+                        </div>
+                        <a href="@Model.ResultPath1" download="output_fusion"
+                            class="card-content button is-black is-medium my-2">
+                            Download
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+}
+
+@section Scripts {
+    <script>
+        const fileInput = document.querySelector('#file-js-example input[type=file]');
+        fileInput.onchange = () => {
+            if (fileInput.files.length > 0) {
+                const fileName = document.querySelector('#file-js-example .file-name');
+                fileName.textContent = fileInput.files[0].name;
+            }
+        }
+    </script>
+}
