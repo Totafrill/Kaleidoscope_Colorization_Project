@@ -1,0 +1,114 @@
+﻿@page
+@model Kolorowanie.Pages.DoublePlainModel
+@{
+}
+
+<section class="section">
+    <div class="container">
+        <form method="post" id="myForm" enctype="multipart/form-data" asp-controller="YourController"
+            asp-action="UploadFile">
+            <div class="columns is-vcentered">
+                <div class="column is-4 has-text-centered">
+                    <span class="label is-size-5 has-text-white">Black and white input image</span>
+                    <div id="file-one" class="file is-centered has-name is-medium is-white">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="ImageFile1">
+                            <span class="file-cta">
+                                <span class="file-label">
+                                    Choose image
+                                </span>
+                            </span>
+                            <span class="file-name">
+                                No image uploaded
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="column is-2 has-text-centered">
+                    <span class="label is-size-5 has-text-white has-text-center">Plain model 1</span>
+                    <div class="select is-medium">
+                        <select class="block" asp-items="Model.ListModelsPlain" name="SelectedModel1"></select>
+                    </div>
+                </div>
+
+                <div class="column is-2 has-text-centered">
+                    <span class="label is-size-5 has-text-white has-text-center">Plain model 2</span>
+                    <div class="select is-medium">
+                        <select class="block" asp-items="Model.ListModelsPlain" name="SelectedModel2"></select>
+                    </div>
+                </div>
+
+                <div class="column is-4 has-text-centered">
+                    <span class="label is-size-5 has-text-white has-text-center">Run model</span>
+
+                    <button class="button is-large js-modal-trigger" data-target="modal-js-example"
+                        type="submit">Colorize</button>
+                </div>
+            </div>
+
+        </form>
+        <div asp-validation-summary="All"></div>
+    </div>
+</section>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="notification is-danger">
+        @Model.ErrorMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Model.ResultPath1))
+{
+    <section class="section">
+        <div class="container">
+            <div class="columns is-vcentered">
+                <div class="column is-4 has-text-centered">
+                    <div class="card has-background-dark">
+                        <p class="is-size-4 has-text-white has-text-centered has-text-weight-semibold">
+                            Black and white input
+                        </p>
+                        <div class="card-image mt-2">
+                            <img src="@Model.InputPath" alt="Input" />
+                        </div>
+                        <a href="@Model.InputPath" download="input" class="card-content button is-black is-medium my-2">
+                            Download
+                        </a>
+                    </div>
+                </div>
+
+                <div class="column is-4 has-text-centered">
+                    <div class="card has-background-dark">
+                        <p class="is-size-4 has-text-white has-text-centered has-text-weight-semibold">
+                            Result of plain model 1
+                        </p>
+                        <div class="card-image mt-2">
+                            <img src="@Model.ResultPath1" alt="Result" />
+                        </div>
+                        <a href="@Model.ResultPath1" download="output_plain_1"
+                            class="card-content button is-black is-medium my-2">
+                            Download
+                        </a>
+                    </div>
+                </div>
+
+                <div class="column is-4 has-text-centered">
+                    <div class="card has-background-dark">
+                        <p class="is-size-4 has-text-white has-text-centered has-text-weight-semibold">
+                            Result of plain model 2
+                        </p>
+                        <div class="card-image mt-2">
+                            <img src="@Model.ResultPath2" alt="Result" />
+                        </div>
+                        <a href="@Model.ResultPath2" download="output_plain_2"
+                            class="card-content button is-black is-medium my-2">
+                            Download
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+}
