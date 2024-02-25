@@ -47,14 +47,11 @@ namespace Kolorowanie.Pages
 
         public void OnGet()
         {
-
-
             Paths.SetPaths(_environment);
 
             SetFileList();
 
             Files.RemoveOldFiles(Paths.Uploads_folder, TimeSpan.FromMinutes(5));
-
         }
 
         public FusionMultiModel(IWebHostEnvironment environment)
@@ -64,7 +61,11 @@ namespace Kolorowanie.Pages
 
         public IActionResult OnPost()
         {
-            OnGet();
+            if (!ModelState.IsValid)
+            {
+                SetFileList();
+                return Page();
+            }
 
             if (SelectedModel1 == null || SelectedModel1.Length == 0)
             {
@@ -117,6 +118,9 @@ namespace Kolorowanie.Pages
                 InputsPaths[i] = Paths.Paths_of_images_short[i * 2];
                 ResultsPaths[i] = Paths.Paths_of_images_short[i * 2 + 1];
             }
+
+            SetFileList();
+            Paths.ClearImagesPaths();
 
             return Page();
         }

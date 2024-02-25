@@ -56,7 +56,11 @@ namespace Kolorowanie.Pages
         [HttpPost]
         public IActionResult OnPost()
         {
-            OnGet();
+            if (!ModelState.IsValid)
+            {
+                SetFileList();
+                return Page();
+            }
 
             if (SelectedModel1 == null || SelectedModel1.Length == 0)
             {
@@ -87,6 +91,9 @@ namespace Kolorowanie.Pages
             {
                 ErrorMessage = "Error during running model" + ex.Message;
             }
+
+            SetFileList();
+            Paths.ClearImagesPaths();
 
             return Page();
         }

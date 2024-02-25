@@ -60,6 +60,12 @@ namespace Kolorowanie.Pages
 
         public IActionResult OnPost()
         {
+            if (!ModelState.IsValid)
+            {
+                SetFileList();
+                return Page();
+            }
+
             if (SelectedModel1 == null || SelectedModel1.Length == 0)
             {
                 ErrorMessage = "The model has not been selected";
@@ -112,7 +118,8 @@ namespace Kolorowanie.Pages
                 ResultsPaths[i] = Paths.Paths_of_images_short[i * 2 + 1];
             }
 
-            OnGet();
+            SetFileList();
+            Paths.ClearImagesPaths();
 
             return Page();
         }
